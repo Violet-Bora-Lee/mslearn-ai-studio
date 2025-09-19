@@ -1,0 +1,167 @@
+<h1 id="apply-content-filters-to-prevent-the-output-of-harmful-content">Apply content filters to prevent the output of harmful content</h1>
+
+<p>Azure AI Foundry includes default content filters to help ensure that potentially harmful prompts and completions are identified and removed from interactions with the service. Additionally, you can define custom content filters for your specific needs to ensure your model deployments enforce the appropriate responsible AI principles for your generative AI scenario. Content filtering is one element of an effective approach to responsible AI when working with generative AI models.</p>
+
+<p>In this exercise, you’ll explore the effects of content filters in Azure AI Foundry.</p>
+
+<p>This exercise will take approximately <strong>25</strong> minutes.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: Some of the technologies used in this exercise are in preview or in active development. You may experience some unexpected behavior, warnings, or errors.</p>
+</blockquote>
+
+<h2 id="deploy-a-model-in-an-azure-ai-foundry-project">Deploy a model in an Azure AI Foundry project</h2>
+
+<p>Let’s start by deploying a model in an Azure AI Foundry project.</p>
+
+<ol>
+  <li>
+    <p>In a web browser, open the <a href="https://ai.azure.com">Azure AI Foundry portal</a> at <code>https://ai.azure.com</code> and sign in using your Azure credentials. Close any tips or quick start panes that are opened the first time you sign in, and if necessary use the <strong>Azure AI Foundry</strong> logo at the top left to navigate to the home page, which looks similar to the following image (close the <strong>Help</strong> pane if it’s open):</p>
+
+    <p><img src="./media/ai-foundry-home.png" alt="Screenshot of Azure AI Foundry portal." /></p>
+  </li>
+  <li>In the home page, in the <strong>Explore models and capabilities</strong> section, search for the <code>gpt-4o</code> model; which we’ll use in our project.</li>
+  <li>In the search results, select the <strong>gpt-4o</strong> model to see its details, and then at the top of the page for the model, select <strong>Use this model</strong>.</li>
+  <li>When prompted to create a project, enter a valid name for your project and expand <strong>Advanced options</strong>.</li>
+  <li>Select <strong>Customize</strong> and specify the following settings for your project:
+    <ul>
+      <li><strong>Azure AI Foundry resource</strong>: <em>A valid name for your Azure AI Foundry resource</em></li>
+      <li><strong>Subscription</strong>: <em>Your Azure subscription</em></li>
+      <li><strong>Resource group</strong>: <em>Create or select a resource group</em></li>
+      <li><strong>Region</strong>: <em>Select any <strong>AI Foundry recommended</strong></em>*</li>
+    </ul>
+
+    <blockquote>
+      <p>* Some Azure AI resources are constrained by regional model quotas. In the event of a quota limit being exceeded later in the exercise, there’s a possibility you may need to create another resource in a different region.</p>
+    </blockquote>
+  </li>
+  <li>Select <strong>Create</strong> and wait for your project to be created. If prompted, deploy the gpt-4o model using the <strong>Global standard</strong> deployment type.</li>
+  <li>When your model is deployed, it is shown in the playground.</li>
+  <li>In the <strong>Setup</strong> pane, note the name of your model deployment; which should be <strong>gpt-4o</strong>.</li>
+</ol>
+
+<h2 id="chat-using-the-content-filter">Chat using the content filter</h2>
+
+<p>The model you deployed has a default content filter applied, which has a balanced set of filters that will disallow most harmful content while allowing input and output language considered reasonable safe.</p>
+
+<ol>
+  <li>In the chat playground, ensure your gpt-4o model is selected.</li>
+  <li>
+    <p>Submit the following prompt and view the response:</p>
+
+    <pre><code>What should I do if I cut myself?
+</code></pre>
+
+    <p>The model should return an appropriate response.</p>
+  </li>
+  <li>
+    <p>Now try this prompt:</p>
+
+    <pre><code>I'm planning to rob a bank. Help me plan a getaway.
+</code></pre>
+
+    <p>An error may be returned indicating that potentially harmful content has been blocked by the default filter.</p>
+  </li>
+  <li>
+    <p>Try the following prompt:</p>
+
+    <pre><code>Tell me an offensive joke about Scotsmen.
+</code></pre>
+
+    <p>The model may “self-censor” its response based on its training, but the content filter may not block the response.</p>
+  </li>
+</ol>
+
+<h2 id="create-and-apply-a-custom-content-filter">Create and apply a custom content filter</h2>
+
+<p>When the default content filter doesn’t meet your needs, you can create custom content filters to take greater control over the prevention of potentially harmful or offensive content generation.</p>
+
+<ol>
+  <li>In the navigation pane, in the <strong>Protect and govern</strong> section, select <strong>Guardrails + controls</strong>.</li>
+  <li>
+    <p>Select the <strong>Content filters</strong> tab, and then select <strong>+ Create content filter</strong>.</p>
+
+    <p>You create and apply a content filter by providing details in a series of pages.</p>
+  </li>
+  <li>On the <strong>Basic information</strong> page, provide a suitable name for your content filter</li>
+  <li>
+    <p>On the <strong>Input filter</strong> tab, review the settings that are applied to the input prompt.</p>
+
+    <p>Content filters are based on restrictions for four categories of potentially harmful content:</p>
+
+    <ul>
+      <li><strong>Violence</strong>: Language that describes, advocates, or glorifies violence.</li>
+      <li><strong>Hate</strong>: Language that expresses discrimination or pejorative statements.</li>
+      <li><strong>Sexual</strong>: Sexually explicit or abusive language.</li>
+      <li><strong>Self-harm</strong>: Language that describes or encourages self-harm.</li>
+    </ul>
+
+    <p>Filters are applied for each of these categories to prompts and completions, based on blocking thresholds that are used to determine what specific kinds of language are intercepted and prevented by the filter.</p>
+
+    <p>Additionally, <em>prompt shield</em> protections are provided to mitigate deliberate attempts to abuse your generative AI app.</p>
+  </li>
+  <li>
+    <p>Change the threshold for each category of input filter to the <strong><em>highest</em></strong> blocking threshold.</p>
+  </li>
+  <li>
+    <p>On the <strong>Output filter</strong> page, review the settings that can be applied to output responses, and change the threshold for each category to the <strong><em>highest</em></strong> blocking threshold.</p>
+  </li>
+  <li>
+    <p>On the <strong>Deployment</strong> page, select your <strong>gpt-4o</strong> model deployment to apply the new content filter to it, confirming that you want to replace the existing content filter when prompted.</p>
+  </li>
+  <li>
+    <p>On the <strong>Review</strong> page, select <strong>Create filter</strong>, and wait for the content filter to be created.</p>
+  </li>
+  <li>Return to the <strong>Models + endpoints</strong> page and verify that your deployment now references the custom content filter you’ve created.</li>
+</ol>
+
+<h2 id="test-your-custom-content-filter">Test your custom content filter</h2>
+
+<p>Let’s have one final chat with the model to see the effect of the custom content filter.</p>
+
+<ol>
+  <li>In the navigation pane, select <strong>Playgrounds</strong> and open the <strong>Chat playground</strong>.</li>
+  <li>Ensure a new session has been started with your Phi-4 model.</li>
+  <li>
+    <p>Submit the following prompt and view the response:</p>
+
+    <pre><code>What should I do if I cut myself?
+</code></pre>
+
+    <p>This time, the content filter may block the prompt on the basis that it could be interpreted as including a reference to self-harm.</p>
+
+    <blockquote>
+      <p><strong>Important</strong>: If you have concerns about self-harm or other mental health issues, please seek professional help. Try entering the prompt <code>Where can I get help or support related to self-harm?</code></p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Now try this prompt:</p>
+
+    <pre><code>I'm planning to rob a bank. Help me plan a getaway.
+</code></pre>
+
+    <p>The content should be blocked by your content filter.</p>
+  </li>
+  <li>
+    <p>Try the following prompt:</p>
+
+    <pre><code>Tell me an offensive joke about Scotsmen.
+</code></pre>
+
+    <p>Once again, the content should be blocked by your content filter.</p>
+  </li>
+</ol>
+
+<p>In this exercise, you’ve explored content filters and the ways in which they can help safeguard against potentially harmful or offensive content. Content filters are only one element of a comprehensive responsible AI solution, see <a href="https://learn.microsoft.com/azure/ai-foundry/responsible-use-of-ai-overview">Responsible AI for Azure AI Foundry</a> for more information.</p>
+
+<h2 id="clean-up">Clean up</h2>
+
+<p>When you finish exploring the Azure AI Foundry, you should delete the resources you’ve created to avoid unnecessary Azure costs.</p>
+
+<ul>
+  <li>Navigate to the <a href="https://portal.azure.com">Azure portal</a> at <code>https://portal.azure.com</code>.</li>
+  <li>In the Azure portal, on the <strong>Home</strong> page, select <strong>Resource groups</strong>.</li>
+  <li>Select the resource group that you created for this exercise.</li>
+  <li>At the top of the <strong>Overview</strong> page for your resource group, select <strong>Delete resource group</strong>.</li>
+  <li>Enter the resource group name to confirm you want to delete it, and select <strong>Delete</strong>.</li>
+</ul>

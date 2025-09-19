@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd" xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/01-Explore-ai-studio.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/02-Explore-model-catalog.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/02a-AI-foundry-sdk.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/03-Use-prompt-flow-chat.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/04-Use-own-data.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/05-Finetune-model.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/06-Explore-content-filters.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/Instructions/07-Evaluate-prompt-flow.html</loc>
+</url>
+<url>
+<loc>https://violet-bora-lee.github.io/mslearn-ai-studio/</loc>
+</url>
+</urlset>

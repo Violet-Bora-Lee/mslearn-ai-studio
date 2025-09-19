@@ -1,0 +1,183 @@
+<h1 id="evaluate-generative-ai-model-performance">Evaluate generative AI model performance</h1>
+
+<p>In this exercise, you’ll use manual and automated evaluations to assess the performance of a model in the Azure AI Foundry portal.</p>
+
+<p>This exercise will take approximately <strong>30</strong> minutes.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: Some of the technologies used in this exercise are in preview or in active development. You may experience some unexpected behavior, warnings, or errors.</p>
+</blockquote>
+
+<h2 id="create-an-azure-ai-foundry-hub-and-project">Create an Azure AI Foundry hub and project</h2>
+
+<p>The features of Azure AI Foundry we’re going to use in this exercise require a project that is based on an Azure AI Foundry <em>hub</em> resource.</p>
+
+<ol>
+  <li>
+    <p>In a web browser, open the <a href="https://ai.azure.com">Azure AI Foundry portal</a> at <code>https://ai.azure.com</code> and sign in using your Azure credentials. Close any tips or quick start panes that are opened the first time you sign in, and if necessary use the <strong>Azure AI Foundry</strong> logo at the top left to navigate to the home page, which looks similar to the following image (close the <strong>Help</strong> pane if it’s open):</p>
+
+    <p><img src="./media/ai-foundry-home.png" alt="Screenshot of Azure AI Foundry portal." /></p>
+  </li>
+  <li>In the browser, navigate to <code>https://ai.azure.com/managementCenter/allResources</code> and select <strong>Create new</strong>. Then choose the option to create a new <strong>AI hub resource</strong>.</li>
+  <li>In the <strong>Create a project</strong> wizard, enter a valid name for your project, and select the option to create a new hub. Then use the <strong>Rename hub</strong> link to specify a valid name for your new hub, expand <strong>Advanced options</strong>, and specify the following settings for your project:
+    <ul>
+      <li><strong>Subscription</strong>: <em>Your Azure subscription</em></li>
+      <li><strong>Resource group</strong>: <em>Create or select a resource group</em></li>
+      <li><strong>Region</strong>:  Select one of the following locations (<em>In the event of a quota limit being exceeded later in the exercise, you may need to create another resource in a different region.</em>):
+        <ul>
+          <li>East US 2</li>
+          <li>France Central</li>
+          <li>UK South</li>
+          <li>Sweden Central</li>
+        </ul>
+      </li>
+    </ul>
+
+    <blockquote>
+      <p><strong>Note</strong>: If you’re working in an Azure subscription in which policies are used to restrict allowable resource names, you may need to use the link at the bottom of the <strong>Create a new project</strong> dialog box to create the hub using the Azure portal.</p>
+    </blockquote>
+
+    <blockquote>
+      <p><strong>Tip</strong>: If the <strong>Create</strong> button is still disabled, be sure to rename your hub to a unique alphanumeric value.</p>
+    </blockquote>
+  </li>
+  <li>Wait for your project to be created.</li>
+</ol>
+
+<h2 id="deploy-models">Deploy models</h2>
+
+<p>In this exercise, you’ll evaluate the performance of a gpt-4o-mini model. You’ll also use a gpt-4o model to generate AI-assisted evaluation metrics.</p>
+
+<ol>
+  <li>In the navigation pane on the left for your project, in the <strong>My assets</strong> section, select the <strong>Models + endpoints</strong> page.</li>
+  <li>In the <strong>Models + endpoints</strong> page, in the <strong>Model deployments</strong> tab, in the <strong>+ Deploy model</strong> menu, select <strong>Deploy base model</strong>.</li>
+  <li>Search for the <strong>gpt-4o</strong> model in the list, and then select and confirm it.</li>
+  <li>Deploy the model with the following settings by selecting <strong>Customize</strong> in the deployment details:
+    <ul>
+      <li><strong>Deployment name</strong>: <em>A valid name for your model deployment</em></li>
+      <li><strong>Deployment type</strong>: Global Standard</li>
+      <li><strong>Automatic version update</strong>: Enabled</li>
+      <li><strong>Model version</strong>: <em>Select the most recent available version</em></li>
+      <li><strong>Connected AI resource</strong>: <em>Select your Azure OpenAI resource connection</em></li>
+      <li><strong>Tokens per Minute Rate Limit (thousands)</strong>: 50K <em>(or the maximum available in your subscription if less than 50K)</em></li>
+      <li><strong>Content filter</strong>: DefaultV2</li>
+    </ul>
+
+    <blockquote>
+      <p><strong>Note</strong>: Reducing the TPM helps avoid over-using the quota available in the subscription you are using. 50,000 TPM should be sufficient for the data used in this exercise. If your available quota is lower than this, you will be able to complete the exercise but you may experience errors if the rate limit is exceeded.</p>
+    </blockquote>
+  </li>
+  <li>Wait for the deployment to complete.</li>
+  <li>Return to the <strong>Models + endpoints</strong> page and repeat the previous steps to deploy a <strong>gpt-4o-mini</strong> model with the same settings.</li>
+</ol>
+
+<h2 id="manually-evaluate-a-model">Manually evaluate a model</h2>
+
+<p>You can manually review model responses based on test data. Manually reviewing allows you to test different inputs to evaluate whether the model performs as expected.</p>
+
+<ol>
+  <li>In a new browser tab, download the <a href="https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.jsonl">travel_evaluation_data.jsonl</a> from <code>https://raw.githubusercontent.com/MicrosoftLearning/mslearn-ai-studio/refs/heads/main/data/travel_evaluation_data.jsonl</code> and save it in a local folder as <strong>travel_evaluation_data.jsonl</strong> (be sure to save it as a .jsonl file, not a .txt file).</li>
+  <li>Back on the Azure AI Foundry portal tab, in the navigation pane, in the <strong>Protect and govern</strong> section, select <strong>Evaluation</strong>.</li>
+  <li>If the <strong>Create a new evaluation</strong> pane opens automatically, select <strong>Cancel</strong> to close it.</li>
+  <li>In the <strong>Evaluation</strong> page, view the <strong>Manual evaluations</strong> tab and select <strong>+ New manual evaluation</strong>.</li>
+  <li>In the <strong>Configurations</strong> section, in the <strong>Model</strong> list, select your <strong>gpt-4o</strong> model deployment.</li>
+  <li>
+    <p>Change the <strong>System message</strong> to the following instructions for an AI travel assistant:</p>
+
+    <pre><code>Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
+</code></pre>
+  </li>
+  <li>In the <strong>Manual evaluation result</strong> section, select <strong>Import test data</strong> and upload the <strong>travel_evaluation_data.jsonl</strong> file you downloaded previously; scrolling down to map the dataset fields as follows:
+    <ul>
+      <li><strong>Input</strong>: Question</li>
+      <li><strong>Expected response</strong>: ExpectedResponse</li>
+    </ul>
+  </li>
+  <li>Review the questions and expected answers in the test file - you’ll use these to evaluate the responses that the model generates.</li>
+  <li>
+    <p>Select <strong>Run</strong> from the top bar to generate outputs for all questions you added as inputs. After a few minutes, the responses from the model should be shown in a new <strong>Output</strong> column, like this:</p>
+
+    <p><img src="./media/manual-evaluation.png" alt="Screenshot of a manual evaluation page in Azure AI Foundry portal." /></p>
+  </li>
+  <li>Review the outputs for each question, comparing the output from the model to the expected answer and “scoring” the results by selecting the thumbs up or down icon at the bottom right of each response.</li>
+  <li>After you’ve scored the responses, review the summary tiles above the list. Then in the toolbar, select <strong>Save results</strong> and assign a suitable name. Saving results enables you to retrieve them later for further evaluation or comparison with a different model.</li>
+</ol>
+
+<h2 id="use-automated-evaluation">Use automated evaluation</h2>
+
+<p>While manually comparing model output to your own expected responses can be a useful way to assess a model’s performance, it’s a time-consuming approach in scenarios where you expect a wide range of questions and responses; and it provides little in the way of standardized metrics that you can use to compare different model and prompt combinations.</p>
+
+<p>Automated evaluation is an approach that attempts to address these shortcomings by calculating metrics and using AI to assess responses for coherence, relevance, and other factors.</p>
+
+<ol>
+  <li>Use the back arrow (<strong>←</strong>) next to the <strong>Manual evaluation</strong> page title to return to the <strong>Evaluation</strong> page.</li>
+  <li>View the <strong>Automated evaluations</strong> tab.</li>
+  <li>Select <strong>Create a new evaluation</strong>, and when prompted, select the option to evaluate a <strong>Evaluate a model</strong> and select <strong>Next</strong>.</li>
+  <li>On the <strong>Select data source</strong> page, select <strong>Use your dataset</strong> and select the <strong>travel_evaluation_data_jsonl_<em>xxxx…</em></strong> dataset based on the file you uploaded previously, and select <strong>Next</strong>.</li>
+  <li>
+    <p>On the <strong>Test your model</strong> page, select the <strong>gpt-4o-mini</strong> model and change the <strong>System message</strong> to the same instructions for an AI travel assistant you used previously:</p>
+
+    <pre><code>Assist users with travel-related inquiries, offering tips, advice, and recommendations as a knowledgeable travel agent.
+</code></pre>
+  </li>
+  <li>For the <strong>query</strong> field, select <strong>{{item.question}}</strong>.</li>
+  <li>Select <strong>Next</strong> to move to the next page.</li>
+  <li>On the <strong>Configure evaluators</strong> page, use the <strong>+Add</strong> button to add the following evaluators, configuring each one as follows:
+    <ul>
+      <li><strong>Model scorer</strong>:
+        <ul>
+          <li><strong>Criteria name</strong>: <em>Select the <strong>Semantic_similarity</strong> preset</em></li>
+          <li><strong>Grade with</strong>: <em>Select your <strong>gpt-4o</strong> model</em></li>
+          <li>
+            <p><strong>User</strong> settings (at the bottom):</p>
+
+            <p>Output: {{sample.output_text}}<br />
+  Ground Truth: {{item.ExpectedResponse}}<br />
+  <br /></p>
+          </li>
+        </ul>
+      </li>
+      <li><strong>Likert-scale evaluator</strong>:
+        <ul>
+          <li><strong>Criteria name</strong>: <em>Select the <strong>Relevance</strong> preset</em></li>
+          <li><strong>Grade with</strong>: <em>Select your <strong>gpt-4o</strong> model</em></li>
+          <li><strong>Query</strong>: {{item.question}}</li>
+        </ul>
+      </li>
+      <li><strong>Text similarity</strong>:
+        <ul>
+          <li><strong>Criteria name</strong>: <em>Select the <strong>F1_Score</strong> preset</em></li>
+          <li><strong>Ground truth</strong>: {{item.ExpectedResponse}}</li>
+        </ul>
+      </li>
+      <li><strong>Hateful and unfair content</strong>:
+        <ul>
+          <li><strong>Criteria name</strong>: Hate_and_unfairness</li>
+          <li><strong>Query</strong>: {{item.question}}</li>
+        </ul>
+      </li>
+    </ul>
+  </li>
+  <li>Select <strong>Next</strong> and review your evaluation settings. You should have configured the evaluation to use the travel evaluation dataset to evaluate the <strong>gpt-4o-mini</strong> model for semantic similarity, relevance, F1 score, and hateful and unfair language.</li>
+  <li>
+    <p>Give the evaluation a suitable name, and <strong>Submit</strong> it to start the evaluation process, and wait for it to complete. It may take a few minutes. You can use the <strong>Refresh</strong> toolbar button to check the status.</p>
+  </li>
+  <li>
+    <p>When the evaluation has completed, scroll down if necessary to review the results.</p>
+
+    <p><img src="./media/ai-quality-metrics.png" alt="Screenshot of evalation metrics." /></p>
+  </li>
+  <li>At the top of the page, select the <strong>Data</strong> tab to see the raw data from the evaluation. The data includes the metrics for each input as well as explanations of the reasoning the gpt-4o model applied when assessing the responses.</li>
+</ol>
+
+<h2 id="clean-up">Clean up</h2>
+
+<p>When you finish exploring the Azure AI Foundry, you should delete the resources you’ve created to avoid unnecessary Azure costs.</p>
+
+<ul>
+  <li>Navigate to the <a href="https://portal.azure.com">Azure portal</a> at <code>https://portal.azure.com</code>.</li>
+  <li>In the Azure portal, on the <strong>Home</strong> page, select <strong>Resource groups</strong>.</li>
+  <li>Select the resource group that you created for this exercise.</li>
+  <li>At the top of the <strong>Overview</strong> page for your resource group, select <strong>Delete resource group</strong>.</li>
+  <li>Enter the resource group name to confirm you want to delete it, and select <strong>Delete</strong>.</li>
+</ul>

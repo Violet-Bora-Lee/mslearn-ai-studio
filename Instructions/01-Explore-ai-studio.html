@@ -1,0 +1,136 @@
+<h1 id="prepare-for-an-ai-development-project">Prepare for an AI development project</h1>
+
+<p>In this exercise, you use Azure AI Foundry portal to create a project, ready to build an AI solution.</p>
+
+<p>This exercise takes approximately <strong>30</strong> minutes.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: Some of the technologies used in this exercise are in preview or in active development. You may experience some unexpected behavior, warnings, or errors.</p>
+</blockquote>
+
+<h2 id="open-azure-ai-foundry-portal">Open Azure AI Foundry portal</h2>
+
+<p>Let’s start by signing into Azure AI Foundry portal.</p>
+
+<ol>
+  <li>
+    <p>In a web browser, open the <a href="https://ai.azure.com">Azure AI Foundry portal</a> at <code>https://ai.azure.com</code> and sign in using your Azure credentials. Close any tips or quick start panes that are opened the first time you sign in, and if necessary use the <strong>Azure AI Foundry</strong> logo at the top left to navigate to the home page, which looks similar to the following image (close the <strong>Help</strong> pane if it’s open):</p>
+
+    <p><img src="./media/ai-foundry-home.png" alt="Screenshot of Azure AI Foundry portal." /></p>
+  </li>
+  <li>
+    <p>Review the information on the home page.</p>
+  </li>
+</ol>
+
+<h2 id="create-a-project">Create a project</h2>
+
+<p>An Azure AI <em>project</em> provides a collaborative workspace for AI development. Let’s start by choosing a model that we want to work with and creating a project to use it in.</p>
+
+<blockquote>
+  <p><strong>Note</strong>: AI Foundry projects can be based on an <em>Azure AI Foundry</em> resource, which provides access to AI models (including Azure OpenAI), Azure AI services, and other resources for developing AI agents and chat solutions. Alternatively, projects can be based on <em>AI hub</em> resources; which include connections to Azure resources for secure storage, compute, and specialized tools. Azure AI Foundry based projects are great for developers who want to manage resources for AI agent or chat app development. AI hub based projects are more suitable for enterprise development teams working on complex AI solutions.</p>
+</blockquote>
+
+<ol>
+  <li>In the home page, in the <strong>Explore models and capabilities</strong> section, search for the <code>gpt-4o</code> model; which we’ll use in our project.</li>
+  <li>In the search results, select the <strong>gpt-4o</strong> model to see its details, and then at the top of the page for the model, select <strong>Use this model</strong>.</li>
+  <li>When prompted to create a project, enter a valid name for your project and expand <strong>Advanced options</strong>.</li>
+  <li>Select <strong>Customize</strong> and specify the following settings for your project:
+    <ul>
+      <li><strong>Azure AI Foundry resource</strong>: <em>A valid name for your Azure AI Foundry resource</em></li>
+      <li><strong>Subscription</strong>: <em>Your Azure subscription</em></li>
+      <li><strong>Resource group</strong>: <em>Create or select a resource group</em></li>
+      <li><strong>Region</strong>: <em>Select any <strong>AI Foundry recommended</strong></em>*</li>
+    </ul>
+
+    <blockquote>
+      <p>* Some Azure AI resources are constrained by regional model quotas. In the event of a quota limit being exceeded later in the exercise, there’s a possibility you may need to create another resource in a different region.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>Select <strong>Create</strong> and wait for your project to be created. If prompted, deploy the gpt-4o model using the <strong>Global standard</strong> deployment type and customize the deployment details to set a <strong>Tokens per minute rate limit</strong> of 50K (or the maximum available if less than 50K).</p>
+
+    <blockquote>
+      <p><strong>Note</strong>: Reducing the TPM helps avoid over-using the quota available in the subscription you are using. 50,000 TPM should be sufficient for the data used in this exercise. If your available quota is lower than this, you will be able to complete the exercise but you may experience errors if the rate limit is exceeded.</p>
+    </blockquote>
+  </li>
+  <li>
+    <p>When your project is created, the chat playground will be opened automatically so you can test your model:</p>
+
+    <p><img src="./media/ai-foundry-chat-playground.png" alt="Screenshot of a Azure AI Foundry project chat playground." /></p>
+  </li>
+  <li>
+    <p>In the navigation pane on the left, select <strong>Overview</strong> to see the main page for your project; which looks like this:</p>
+
+    <p><img src="./media/ai-foundry-project.png" alt="Screenshot of a Azure AI Foundry project overview page." /></p>
+  </li>
+  <li>
+    <p>At the bottom of the navigation pane on the left, select <strong>Management center</strong>. The management center is where you can configure settings at both the <em>resource</em> and <em>project</em> levels; which are both shown in the navigation pane.</p>
+
+    <p><img src="./media/ai-foundry-management.png" alt="Screenshot of the Management center page in Azure AI Foundry portal." /></p>
+
+    <p>The <em>resource</em> level relates to the <strong>Azure AI Foundry</strong> resource that was created to support your project. This resource includes connections to Azure AI Services and Azure AI Foundry models; and provides a centralplace to manage user access to AI development projects.</p>
+
+    <p>The <em>project</em> level relates to your individual project, where you can add and manage project-specific resources.</p>
+  </li>
+  <li>In the navigation pane, in the section for your Azure AI Foundry resource, select the <strong>Overview</strong> page to view its details.</li>
+  <li>Select the link to the <strong>Resource group</strong> associated with the resource to open a new browser tab and navigate to the Azure portal. Sign in with your Azure credentials if prompted.</li>
+  <li>
+    <p>View the resource group in the Azure portal to see the Azure resources that have been created to support your Azure AI Foundry resource and your project.</p>
+
+    <p><img src="./media/azure-portal-resources.png" alt="Screenshot of an Azure AI Foundry resource and project resources in the Azure portal." /></p>
+
+    <p>Note that the resources have been created in the region you selected when creating the project.</p>
+  </li>
+  <li>Close the Azure portal tab and return to the Azure AI Foundry portal.</li>
+</ol>
+
+<h2 id="review-project-endpoints">Review project endpoints</h2>
+
+<p>The Azure AI Foundry project includes a number of <em>endpoints</em> that client applications can use to connect to the project and the models and AI services it includes.</p>
+
+<ol>
+  <li>In the Management center page, in the navigation pane, under your project, select <strong>Go to resource</strong>.</li>
+  <li>In the project <strong>Overview</strong> page, view the <strong>Endpoints and keys</strong> section; which contains endpoints and authorization keys that you can use in your application code to access:
+    <ul>
+      <li>The Azure AI Foundry project and any models deployed in it.</li>
+      <li>Azure OpenAI in Azure AI Foundry models.</li>
+      <li>Azure AI services</li>
+    </ul>
+  </li>
+</ol>
+
+<h2 id="test-a-generative-ai-model">Test a generative AI model</h2>
+
+<p>Now that you know something about the configuration of your Azure AI Foundry project, you can return to the chat playground to explore the model you deployed.</p>
+
+<ol>
+  <li>In the navigation pane on the left for your project, select <strong>Playgrounds</strong></li>
+  <li>Open the <strong>Chat playground</strong>, and ensure that your <strong>gpt-4o</strong> model deployment is selected in the <strong>Deployment</strong> section.</li>
+  <li>
+    <p>In the <strong>Setup</strong> pane, in the <strong>Give the model instructions and context</strong> box, enter the following instructions:</p>
+
+    <pre><code>You are a history teacher who can answer questions about past events all around the world.
+</code></pre>
+  </li>
+  <li>Apply the changes to update the system message.</li>
+  <li>
+    <p>In the chat window, enter a query such as <code>What are the key events in the history of Scotland?</code> and view the response:</p>
+
+    <p><img src="./media/ai-foundry-playground.png" alt="Screenshot of the playground in Azure AI Foundry portal." /></p>
+  </li>
+</ol>
+
+<h2 id="summary">Summary</h2>
+
+<p>In this exercise, you’ve explored Azure AI Foundry, and seen how to create and manage projects and their related resources.</p>
+
+<h2 id="clean-up">Clean up</h2>
+
+<p>If you’ve finished exploring Azure AI Foundry portal, you should delete the resources you have created in this exercise to avoid incurring unnecessary Azure costs.</p>
+
+<ol>
+  <li>In the <a href="https://portal.azure.com">Azure portal</a> at <code>https://portal.azure.com</code>, view the contents of the resource group where you deployed the resources used in this exercise.</li>
+  <li>On the toolbar, select <strong>Delete resource group</strong>.</li>
+  <li>Enter the resource group name and confirm that you want to delete it.</li>
+</ol>
